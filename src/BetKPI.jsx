@@ -155,7 +155,7 @@ function SignUpModal({ onClose, onSubmit }) {
     <div style={{ position:"fixed", inset:0, zIndex:100, display:"flex", alignItems:"center", justifyContent:"center", background:"rgba(0,0,0,0.85)", backdropFilter:"blur(8px)", padding: 16 }}>
       <div style={{ width:"100%", maxWidth:440, maxHeight:"90vh", overflowY:"auto", background:"linear-gradient(180deg, #111128, #0a0a14)", border:"1px solid #ffffff12", borderRadius:16, padding: "24px 20px" }}>
         <div style={{ display:"flex", justifyContent:"space-between", marginBottom:18 }}>
-          <div><div style={{ fontSize:18, fontWeight:800 }}>Join <span style={{ color:"#6ee7b7" }}>betkpi</span></div><div style={{ fontSize:11, color:"#6b7280", marginTop:2 }}>Predict earnings KPIs. Compete on the leaderboard.</div></div>
+          <div><div style={{ fontSize:18, fontWeight:800 }}>Join <span style={{ color:"#6ee7b7" }}>betkpi</span></div><div style={{ fontSize:11, color:"#6b7280", marginTop:2 }}>Predict earnings KPIs. Win real money.</div></div>
           <button onClick={onClose} style={{ background:"none", border:"none", color:"#555", cursor:"pointer", fontSize:22, padding: "0 4px" }}>x</button>
         </div>
         <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
@@ -250,7 +250,7 @@ function TradeSlip({ co, kpi, side, threshold, price, onClose, user, onRequireLo
   const [loading, setLoading] = useState(false);
   const contracts = Math.floor((wager / price) * 100);
   const isPct = kpi.unit.includes("%");
-  const shareText = co.ticker + " " + kpi.label + ": " + side.toUpperCase() + " >" + threshold + (isPct?"%":"") + " on betkpi.ai";
+  const shareText = co.ticker + " " + kpi.label + ": " + side.toUpperCase() + " >" + threshold + (isPct?"%":"") + " on betkpi.ai — top predictor wins $100";
 
   const go = async () => {
     if (!user) { onRequireLogin(); return; }
@@ -414,17 +414,25 @@ export default function BetKPI() {
                 Trade the KPI,<br /><span style={{ color: "#6ee7b7" }}>not the noise.</span>
               </h1>
               <p style={{ fontSize: isMobile ? 13 : 14, color: "#94a3b8", lineHeight: 1.6, marginBottom: 6 }}>
-                Stocks move on 50 things at once. BetKPI lets you bet on the one number you actually have a view on.
+                Stocks move on 50 things at once. BetKPI lets you bet on the one number you actually have a view on. Top predictor each earnings cycle wins cash prizes.
               </p>
               <p style={{ fontSize: 13, color: "#6b7280", lineHeight: 1.5 }}>
                 Multiple price thresholds per KPI. See where the crowd thinks the number lands.
               </p>
-              {!user && <button onClick={() => setShowSignUp(true)} style={{ marginTop: 14, padding: "11px 24px", borderRadius: 8, border: "none", background: "linear-gradient(135deg, #059669, #6ee7b7)", color: "#000", fontSize: 13, fontWeight: 800, cursor: "pointer", fontFamily: "monospace", letterSpacing: 1, width: isMobile ? "100%" : "auto" }}>Start Predicting</button>}
+              {!user && <button onClick={() => setShowSignUp(true)} style={{ marginTop: 14, padding: "11px 24px", borderRadius: 8, border: "none", background: "linear-gradient(135deg, #059669, #6ee7b7)", color: "#000", fontSize: 13, fontWeight: 800, cursor: "pointer", fontFamily: "monospace", letterSpacing: 1, width: isMobile ? "100%" : "auto" }}>Start Predicting — Win $100</button>}
             </div>
             <div style={{ flex: "0 0 auto", display: "flex", justifyContent: "center" }}><HeroExample /></div>
           </div>
         </div>
 
+        {/* PRIZE BANNER */}
+        <div style={{ padding: isMobile ? "14px 14px" : "16px 20px", margin: "0 0 16px", background: "linear-gradient(135deg, #059669 0%, #6ee7b740 100%)", border: "1px solid #6ee7b740", borderRadius: 12, display: "flex", alignItems: isMobile ? "flex-start" : "center", justifyContent: "space-between", flexDirection: isMobile ? "column" : "row", gap: isMobile ? 8 : 0, animation: "fadeUp 0.55s ease" }}>
+          <div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", marginBottom: 2 }}>$100 to the top predictor this earnings cycle</div>
+            <div style={{ fontSize: 12, color: "#ffffffbb" }}>Make your calls on TSLA, NFLX, and NVDA. Best record wins $100 via Venmo. Free to play.</div>
+          </div>
+          {!user && <button onClick={() => setShowSignUp(true)} style={{ padding: "8px 18px", borderRadius: 7, border: "none", background: "#fff", color: "#000", fontSize: 12, fontWeight: 800, cursor: "pointer", fontFamily: "monospace", whiteSpace: "nowrap", flexShrink: 0 }}>Join Now</button>}
+        </div>
         {/* TABS */}
         <div style={{ display: "flex", gap: 4, marginBottom: 18, padding: "8px 0", borderBottom: "1px solid #ffffff08", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
           {["ALL", ...COMPANIES.map(c => c.ticker)].map(t => {
@@ -464,7 +472,7 @@ export default function BetKPI() {
             <div style={{ background: "#0c0c18", border: "1px solid #ffffff08", borderRadius: 13, padding: isMobile ? "14px 14px" : "18px 20px", marginBottom: 20 }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
                 <span style={{ fontSize: 9, color: "#6ee7b7", textTransform: "uppercase", letterSpacing: 3, fontFamily: "monospace" }}>Top Predictors</span>
-                <span style={{ fontSize: 9, color: "#555", fontFamily: "monospace" }}>Season 1</span>
+                <span style={{ fontSize: 9, color: "#555", fontFamily: "monospace" }}>Season 1 — $100 Prize</span>
               </div>
               {LEADERS.map((l,i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "7px 0", borderBottom: i < LEADERS.length-1 ? "1px solid #ffffff06" : "none" }}>
@@ -479,7 +487,7 @@ export default function BetKPI() {
                 </div>
               ))}
               {!user && <div style={{ marginTop: 10, textAlign: "center" }}>
-                <button onClick={() => setShowSignUp(true)} style={{ background: "none", border: "none", color: "#6ee7b7", cursor: "pointer", fontWeight: 700, fontSize: 11 }}>Sign up to compete</button>
+                <button onClick={() => setShowSignUp(true)} style={{ background: "none", border: "none", color: "#6ee7b7", cursor: "pointer", fontWeight: 700, fontSize: 11 }}>Sign up to compete for $100</button>
               </div>}
             </div>
           </div>
@@ -505,7 +513,7 @@ export default function BetKPI() {
               { s:"01", t:"Pick a KPI", d:"Choose an earnings metric. Tap ? to learn what it means." },
               { s:"02", t:"Pick a threshold", d:"Buy YES if the number beats it, NO if it won't." },
               { s:"03", t:"Set your wager", d:"Lower price = higher payout if right." },
-              { s:"04", t:"Earnings drop", d:"Settle at $1 or $0. Climb the leaderboard." },
+              { s:"04", t:"Earnings drop", d:"Settle at $1 or $0. Top predictor wins $100 via Venmo." },
             ].map(x => (
               <div key={x.s}><div style={{ fontSize: 20, fontWeight: 800, color: "#6ee7b720", fontFamily: "monospace", marginBottom: 2 }}>{x.s}</div><div style={{ fontSize: 12, fontWeight: 700, color: "#e2e8f0", marginBottom: 3 }}>{x.t}</div><div style={{ fontSize: 10, color: "#6b7280", lineHeight: 1.5 }}>{x.d}</div></div>
             ))}
